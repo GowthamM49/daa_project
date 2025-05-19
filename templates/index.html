@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+
+  <meta charset="UTF-8" />
+  <title>Network Topology Detector</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f8f9fa;
+      margin: 40px;
+      background: linear-gradient(to right, #4facfe, #00f2fe);
+    }
+    .container {
+      background: white;
+      padding: 20px 30px;
+      border-radius: 10px;
+      width: 500px;
+      margin: auto;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }
+    textarea,
+    input[type="number"] {
+      width: 100%;
+      margin-top: 10px;
+      margin-bottom: 20px;
+      padding: 10px;
+      font-size: 14px;
+    }
+    button {
+      padding: 10px 20px;
+      background-color: #0069d9;
+      border: none;
+      color: white;
+      cursor: pointer;
+      font-size: 16px;
+    }
+    .output {
+      margin-top: 20px;
+      background-color: #e2e3e5;
+      padding: 15px;
+      border-radius: 5px;
+    }
+    .time-complexity {
+      margin-top: 10px;
+      font-style: italic;
+      color: #555;
+    }
+    .steps {
+      margin-top: 15px;
+      background-color: #f1f3f5;
+      padding: 10px 15px;
+      border-radius: 5px;
+      font-size: 14px;
+      color: #333;
+    }
+    .steps h4 {
+      margin-bottom: 8px;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <i><h2>Network Topology Detection</h2></i>
+    <form method="POST">
+      <label>Number of Nodes:</label>
+      <input
+        type="number"
+        name="nodes"
+        min="2"
+        required
+        value="{{ nodes or '' }}"
+      />
+
+      <label>Enter Adjacency Matrix (each row on new line):</label>
+      <textarea
+        name="matrix"
+        rows="6"
+        placeholder="Example for 3 nodes:
+0 1 0
+1 0 1
+0 1 0"
+        required
+      >{{ matrix_input }}</textarea>
+
+      <button type="submit">Detect Topology</button>
+    </form>
+
+    {% if result %}
+    <div class="output">
+      <strong>{{ result }}</strong><br />
+      {{ suggestion }}
+      {% if time_complexity %}
+      <div class="time-complexity">Time Complexity: {{ time_complexity }}</div>
+      {% endif %}
+    </div>
+    {% endif %}
+
+    {% if steps %}
+    <div class="steps">
+      <h4>Detection Process:</h4>
+      <ul>
+        {% for step in steps %}
+          <li>{{ step }}</li>
+        {% endfor %}
+      </ul>
+    </div>
+    {% endif %}
+  </div>
+</body>
+</html>
